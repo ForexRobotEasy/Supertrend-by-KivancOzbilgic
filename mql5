@@ -1,0 +1,150 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                                        Supertrend by KivancOzbilgic |
+//|                                        Developer's Site: forexroboteasy.com |
+//|                                               Developed by: Forex Robot Easy Team |
+//|                                                                     |
+//+------------------------------------------------------------------+
+
+//--- Input parameters
+extern int period = 10;                   // Period for calculating the Supertrend
+extern double multiplier = 3.0;           // Multiplier for calculating the Supertrend
+extern int stopLoss = 50;                 // Stop Loss level
+extern int takeProfit = 100;              // Take Profit level
+
+//--- Global variables
+double supertrend;
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   //--- Indicator buffers mapping
+   SetIndexBuffer(0, supertrend);
+
+   //--- Set indicator line properties
+   SetIndexStyle(0, DRAW_LINE);
+   SetIndexLabel(0, 'Supertrend');
+
+   //--- Set indicator parameters
+   SetIndexShift(0, 1);
+   SetIndexEmptyValue(0, 0);
+
+   //--- Initialize the Supertrend
+   CalculateSupertrend();
+
+   return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                              |
+//+------------------------------------------------------------------+
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime &time[],
+                const double &open[],
+                const double &high[],
+                const double &low[],
+                const double &close[],
+                const long &tick_volume[],
+                const long &volume[],
+                const int &spread[])
+{
+   //--- Calculate the Supertrend
+   CalculateSupertrend();
+
+   //--- Check for buy and sell signals
+   if (supertrend > close[1])
+   {
+      //--- Send buy signal
+      SendAlert('Buy signal: Supertrend crossed above the close price');
+      //--- Open long position
+      OpenPosition(POSITION_TYPE_BUY);
+   }
+   else if (supertrend < close[1])
+   {
+      //--- Send sell signal
+      SendAlert('Sell signal: Supertrend crossed below the close price');
+      //--- Open short position
+      OpenPosition(POSITION_TYPE_SELL);
+   }
+
+   //--- Check for stop loss and take profit levels
+   double positionProfit = GetPositionProfit();
+   if (positionProfit > takeProfit)
+   {
+      //--- Close the position with take profit
+      ClosePosition();
+   }
+   else if (positionProfit < -stopLoss)
+   {
+      //--- Close the position with stop loss
+      ClosePosition();
+   }
+
+   return(rates_total);
+}
+
+//+------------------------------------------------------------------+
+//| Calculate the Supertrend                                         |
+//+------------------------------------------------------------------+
+void CalculateSupertrend()
+{
+   //--- Calculate Supertrend logic here
+   //...
+   //...
+   //...
+
+   //--- Assign calculated Supertrend value to the buffer
+   supertrend = 1.2345; // Replace with actual Supertrend calculation
+
+   //--- Comment the calculated Supertrend value for future reference
+   Comment('Supertrend value: ', supertrend);
+}
+
+//+------------------------------------------------------------------+
+//| Open long or short position based on the specified type           |
+//+------------------------------------------------------------------+
+void OpenPosition(const ENUM_POSITION_TYPE type)
+{
+   //--- Open position logic here
+   //...
+   //...
+   //...
+}
+
+//+------------------------------------------------------------------+
+//| Close the current position                                        |
+//+------------------------------------------------------------------+
+void ClosePosition()
+{
+   //--- Close position logic here
+   //...
+   //...
+   //...
+}
+
+//+------------------------------------------------------------------+
+//| Get the profit of the current position                            |
+//+------------------------------------------------------------------+
+double GetPositionProfit()
+{
+   //--- Get position profit logic here
+   //...
+   //...
+   //...
+
+   return 123.45; // Replace with actual position profit
+}
+
+//+------------------------------------------------------------------+
+//| Send alert or notification                                        |
+//+------------------------------------------------------------------+
+void SendAlert(const string message)
+{
+   //--- Send alert logic here
+   //...
+   //...
+   //...
+}
